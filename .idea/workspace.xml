@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="05c1021e-c928-40ab-ab79-668fa0cfdf06" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/task1.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/task2.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wordcount.txt" beforeDir="false" afterPath="$PROJECT_DIR$/wordcount.txt" afterDir="false" />
@@ -49,7 +51,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Go Build.go build main.go">
     <configuration name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="GoWordCount" />
       <working_directory value="$PROJECT_DIR$" />
@@ -58,9 +60,18 @@
       <directory value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
+    <configuration name="go build task2.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="GoWordCount" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/src/task2.go" />
+      <directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Go Build.go build main.go" />
+        <item itemvalue="Go Build.go build task2.go" />
       </list>
     </recent_temporary>
   </component>
@@ -75,7 +86,7 @@
       <option name="presentableId" value="Default" />
       <updated>1582076063891</updated>
       <workItem from="1582076067343" duration="1500000" />
-      <workItem from="1582084148417" duration="5633000" />
+      <workItem from="1582084148417" duration="8748000" />
     </task>
     <servers />
   </component>
