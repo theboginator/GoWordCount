@@ -7,7 +7,8 @@ Jacob Bogner 9/18/2018
 package main
 
 import (
-"fmt"
+	"bufio"
+	"fmt"
 "io/ioutil"
 "log"
 "os"
@@ -40,36 +41,62 @@ from: http://www.golangprograms.com/how-to-count-number-of-repeating-words-in-a-
 
 
 func main() {
-	var directory string //Declare a string to hold the name of the directory
-	fmt.Println("Enter the name of the directory that contains books you want me to read: (.txt files only)") //Prompt user to enter directory
-	_, err := fmt.Scan(&directory) //read keyboard input
-	rawData, err := ioutil.ReadFile(directory) //attempt to open the file
-	if err != nil { //Handle file opening error
-		fmt.Println(err)
-		return
-	}
-	unsortedWords := string(rawData) // convert file data to type String
-
-	reg, err := regexp.Compile("[^a-zA-Z0-9 \n]+") //Define the set of "keeper" data
-	if err != nil { //Handle reg compilation error
-		log.Fatal(err)
-	}
-	trimmedData := reg.ReplaceAllString(unsortedWords, " ")//Read the unsorted data and throw out any chars that do not match with previously defined keeper data
-	datamap := wordCounter(trimmedData) //Create a map file containing all trimmed data
-
-	for index, element := range(datamap){ //Print each word and its associated count to the command window
-		fmt.Println(index, " => ", element)
-	}
-
+	var location = "assets/" //Declare a string to hold the name of the directory
+	var datamap map[string]int
+	keyboard := bufio.NewScanner(os.Stdin)
+	fmt.Println("Gob's Program: Y/N?\n?: ") //Prompt user to run program
+	keyboard.Scan()
+	run := keyboard.Text() //read keyboard input
 	outputFile, err := os.Create("wordcount.txt") //Create a 'wordcount.txt' file to write our datamap to
 	if err != nil { //handle file creation error
 		log.Fatal("There was a problem creating the file. ", err)
 	}
 	defer outputFile.Close()
+	for run == "Y" || run == "y" {
+		fmt.Println("Brace yourself")
+		directory, err := os.Open(location) //Open the directory
+		if err != nil {
+			fmt.Println("Opening directory went horribly wrong: ", err)
+			return
+		}
+		directoryFiles, err := directory.Readdir(0) //Read the files in the directory
+		if err != nil {
+			fmt.Println("AAAAAANNNNNND file read error: ", err)
+			return
+		}
+		var fileArray []string //Holds the names of all the files
+		for index := range directoryFiles { //Generate paths from files found in the directory
+			newFile := directoryFiles[index]
+			name := newFile.Name()
+			fmt.Println("Found: ", name)
+			file := location + name
+			fileArray = append(fileArray, file)
+			fmt.Println("The location is: ", fileArray[index])
+		}
+		for index := range fileArray{
+			rawData, err := ioutil.ReadFile(fileArray[index]) //attempt to open the file
+			if err != nil { //Handle file opening error
+				fmt.Println("AAAANNNND error: ", err)
+				return
+			}
+			unsortedWords := string(rawData) // convert file data to type String
 
-	for index, element := range(datamap){ //Print each word and its associated count to the text file
-		fmt.Fprintln(outputFile, index, " => ", element)
+			reg, err := regexp.Compile("[^a-zA-Z0-9 \n]+") //Define the set of "keeper" data
+			if err != nil { //Handle reg compilation error
+				log.Fatal(err)
+			}
+			trimmedData := reg.ReplaceAllString(unsortedWords, " ")//Read the unsorted data and throw out any chars that do not match with previously defined keeper data
+			datamap = wordCounter(trimmedData) //Create a map file containing all trimmed data
+			fmt.Println("Attempting to write book info for ", fileArray[index])
+			fmt.Fprintln(outputFile, "WORDCOUNT RESULTS: ", fileArray[index])
+			for index, element := range(datamap){ //Print each word and its associated count to the command window and output file
+				fmt.Println(index, " => ", element)
+				fmt.Fprintln(outputFile, index, " => ", element)
+			}
+			fmt.Println("\nAttempted to write results to 'wordcount.txt'.")//Declare an attempt was made to write the file
+		}
+		fmt.Println("\nGob's Program: Y/N?\n?: ") //Prompt user to run program
+		keyboard.Scan()
+		run = keyboard.Text() //read keyboard input
 	}
-	fmt.Println("\nAttempted to write results to 'wordcount.txt'.")//Declare an attempt was made to write the file
-
 }
